@@ -16,6 +16,9 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
+// atur versi whatsapp web
+const wwebVersion = '2.2412.54';
+
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
@@ -53,7 +56,11 @@ const client = new Client({
       '--disable-gpu'
     ],
   },
-  authStrategy: new LocalAuth()
+  authStrategy: new LocalAuth(), //menambahkan alamat remote whatsappweb
+  webVersionCache: {
+        type: 'remote',
+        remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/${wwebVersion}.html`,
+    },
 });
 
 client.on('message', msg => {
